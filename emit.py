@@ -25,8 +25,7 @@ Output structure:
       MsgA1 secret between A, B;
       ...
 
-Note: format and ack are declared as Function (not Format) to avoid
-OFMC Format-transparency issues.
+
 """
 
 from compile import CompiledProtocol
