@@ -1,0 +1,31 @@
+Protocol: KDF ratchet
+
+State: 
+CK <- new
+
+Knowledge:
+A: A,B,CK,kdfl,kdfr,h
+B: A,B,CK,kdfl,kdfr,h
+
+Actions:
+
+Repeat 3:
+A -> B: {| format(Msg1)|}_kdfr(CK)
+
+B -> A: {| ack(h(Msg1))|}_kdfr(CK)
+
+Let:
+CK1 = kdfl(CK)
+
+New State:
+CK = CK1
+
+EndRepeat
+
+Goals:
+Msg1 secret between A,B;
+Msg2 secret between A,B;
+Msg3 secret between A,B;
+B weakly authenticates A on Msg1;
+B weakly authenticates A on Msg2;
+B weakly authenticates A on Msg3;
