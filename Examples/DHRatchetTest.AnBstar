@@ -1,0 +1,39 @@
+Protocol: DH ratchet
+
+State:
+RK <- new
+
+Knowledge:
+A : A,B,RK,kdf_RKr,kdf_RKl,g,h
+B : A,B,RK,kdf_RKr,kdf_RKl,g,h
+
+Actions:
+
+Repeat 2:
+A: new X
+A -> B : A,B,exp(g,X)
+B: new Y
+B -> A : A,B,exp(g,Y)
+
+
+
+Let:
+DH  = exp(exp(g,X),Y)
+CK  = kdf_RKr(RK,DH)
+RK' = kdf_RKl(RK,DH)
+
+A -> B : {| format(MsgA1) |}_CK
+B -> A: {| ack(h(MsgA1))|}_CK
+
+
+
+New State:
+RK = RK'
+
+EndRepeat
+
+Goals:
+MsgA1 secret between A,B;
+MsgA2 secret between A,B;
+B weakly authenticates A on MsgA1;
+B weakly authenticates A on MsgA2;
